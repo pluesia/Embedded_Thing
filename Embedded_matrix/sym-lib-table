@@ -1,3 +1,3 @@
 (sym_lib_table
-  (lib (name led_matrix7x5)(type Legacy)(uri //ltufs.ltuad.ltu.se/students/linwil-5/Desktop/Embedded_matrix/led_matrix7x5.lib)(options "")(descr ""))
+  (lib (name LedMatrix)(type Legacy)(uri C:/Users/Pablo/Documents/Trabajos/MasterIngenieriaInformatica/Embedded_System_Design/Proyect/Embedded_matrix)(options "")(descr "")(disabled))
 )
