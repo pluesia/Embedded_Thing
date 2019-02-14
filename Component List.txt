@@ -1,0 +1,24 @@
+For the led Matrix
+-------------------
+Description					Amount		Elfa nr		Farnell nr	Digikey nr	SEK
+
+
+Resistor SMD 0805 10k				2
+https://www.elfa.se/sv/motstand-ytmontering-tunn-film-10-kohm-arcol-acpp0805-10k-25ppm/p/30047342?queryFromSuggest=true
+
+Resistor SMD 0805 220				8
+https://www.elfa.se/sv/motstand-ytmontering-tjockfilmsmotstand-220-ohm-0805-rnd-components-rnd-155hp05w3f2200t5e/p/30111794?q=motst%C3%A5nd+0805&filter_Resistans~~Ohm=220&page=2&origPos=77&origPageSize=50&simi=99.84
+
+61300611121 - Pin header Male 6 Single		1		300-24-526
+https://www.elfa.se/en/pin-header-male-single-row-straight-without-shroud-wuerth-elektronik-61300611121/p/30024526
+RND 205-00647 - Pin Header Female 7		1		300-93-667
+https://www.elfa.se/en/pin-header-female-rnd-connect-rnd-205-00647/p/30093667?queryFromSuggest=true
+
+Ceramic Disk Capacitor 100 nF 			2		165-65-659
+https://www.elfa.se/en/ceramic-disk-capacitor-100-nf-50-vdc-mm-hitano-sf1h104z-l515b/p/16565659?q=*&filter_Category4=Ceramic+Disk+Capacitors&filter_Category3=Ceramic+Capacitors&filter_Buyable=1&filter_Capacitance~~uF=0.1&page=1&origPos=73&origPageSize=25&simi=98.9
+
+RND 135-00038 - LED Grön 5 mm T-3 1/4		64		301-00-035
+https://www.elfa.se/sv/led-groen-mm-rnd-components-rnd-135-00038/p/30100035?q=led&filter_advisor_answerPath=_0_1&filter_advisor_campaignId=559&page=16&origPos=16&origPageSize=50&simi=99.85
+
+Shift register 8 bit out latch			2		300-23-063
+https://www.elfa.se/sv/74595-bit-shift-register-with-output-latches-pdip-16-texas-instruments-sn74hc595n/p/30023063
