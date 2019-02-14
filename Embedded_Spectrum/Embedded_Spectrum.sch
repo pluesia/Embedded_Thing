@@ -31,7 +31,7 @@ U 1 1 5C5B62B9
 P 1100 1000
 F 0 "J1" H 1155 1467 50  0000 C CNN
 F 1 "USB_OTG" H 1155 1376 50  0000 C CNN
-F 2 "" H 1250 950 50  0001 C CNN
+F 2 "Connector_USB:USB_Mini-B_Lumberg_2486_01_Horizontal" H 1250 950 50  0001 C CNN
 F 3 " ~" H 1250 950 50  0001 C CNN
 	1    1100 1000
 	1    0    0    -1  
@@ -145,22 +145,6 @@ F 3 "" H 2950 1100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Regulator_Linear:LM1117-ADJ U1
-U 1 1 5C5B6889
-P 3600 800
-F 0 "U1" H 3600 1042 50  0000 C CNN
-F 1 "LM1117-ADJ" H 3600 951 50  0000 C CNN
-F 2 "" H 3600 800 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/lm1117.pdf" H 3600 800 50  0001 C CNN
-	1    3600 800 
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2950 800  3300 800 
-Connection ~ 2950 800 
-Wire Wire Line
-	3900 800  4000 800 
-$Comp
 L power:+3V3 #PWR0106
 U 1 1 5C5B6B13
 P 5450 800
@@ -182,7 +166,6 @@ F 3 "~" H 4000 950 50  0001 C CNN
 	1    4000 950 
 	1    0    0    -1  
 $EndComp
-Connection ~ 4000 800 
 Wire Wire Line
 	4000 800  4400 800 
 $Comp
@@ -219,12 +202,7 @@ F 3 "~" H 4000 1900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3600 1750 4000 1750
-Wire Wire Line
-	3600 1100 3600 1750
-Wire Wire Line
 	4000 1700 4000 1750
-Connection ~ 4000 1750
 $Comp
 L power:GND #PWR0107
 U 1 1 5C5B7388
@@ -536,25 +514,14 @@ F 3 "" H 2200 2100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:AudioJack2_Ground J2
-U 1 1 5C5D0CF5
-P 1500 3850
-F 0 "J2" H 1530 4175 50  0000 C CNN
-F 1 "AudioJack2_Ground" H 1530 4084 50  0000 C CNN
-F 2 "Our_Components:PJ-211_Phone-Jack" H 1500 3850 50  0001 C CNN
-F 3 "~" H 1500 3850 50  0001 C CNN
-	1    1500 3850
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND #PWR0117
 U 1 1 5C5C6E39
-P 1500 4050
-F 0 "#PWR0117" H 1500 3800 50  0001 C CNN
-F 1 "GND" H 1505 3877 50  0000 C CNN
-F 2 "" H 1500 4050 50  0001 C CNN
-F 3 "" H 1500 4050 50  0001 C CNN
-	1    1500 4050
+P 1500 3950
+F 0 "#PWR0117" H 1500 3700 50  0001 C CNN
+F 1 "GND" H 1505 3777 50  0000 C CNN
+F 2 "" H 1500 3950 50  0001 C CNN
+F 3 "" H 1500 3950 50  0001 C CNN
+	1    1500 3950
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -777,7 +744,7 @@ U 1 1 5C66F86A
 P 5800 1000
 F 0 "J4" H 5906 1378 50  0000 C CNN
 F 1 "SW_I" H 5906 1287 50  0000 C CNN
-F 2 "" H 5800 1000 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 5800 1000 50  0001 C CNN
 F 3 "~" H 5800 1000 50  0001 C CNN
 	1    5800 1000
 	1    0    0    -1  
@@ -873,7 +840,7 @@ U 1 1 5C68FE8F
 P 2050 6700
 F 0 "SW2" V 2004 6848 50  0000 L CNN
 F 1 "REBOOT" V 2095 6848 50  0000 L CNN
-F 2 "" H 2050 6900 50  0001 C CNN
+F 2 "Button_Switch_THT:SW_PUSH_6mm" H 2050 6900 50  0001 C CNN
 F 3 "" H 2050 6900 50  0001 C CNN
 	1    2050 6700
 	0    1    1    0   
@@ -913,7 +880,7 @@ U 1 1 5C6BA114
 P 1650 3450
 F 0 "J3" H 1756 3628 50  0000 C CNN
 F 1 "AudioSignal" H 1756 3537 50  0000 C CNN
-F 2 "" H 1650 3450 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 1650 3450 50  0001 C CNN
 F 3 "~" H 1650 3450 50  0001 C CNN
 	1    1650 3450
 	1    0    0    -1  
@@ -968,7 +935,7 @@ U 1 1 5C6F2D4C
 P 1200 6050
 F 0 "SW1" V 1154 6198 50  0000 L CNN
 F 1 "RESET" V 1245 6198 50  0000 L CNN
-F 2 "" H 1200 6250 50  0001 C CNN
+F 2 "Button_Switch_THT:SW_PUSH_6mm" H 1200 6250 50  0001 C CNN
 F 3 "" H 1200 6250 50  0001 C CNN
 	1    1200 6050
 	0    1    1    0   
@@ -996,7 +963,7 @@ U 1 1 5C711358
 P 7750 950
 F 0 "J5" H 7777 976 50  0000 L CNN
 F 1 "MOUTPUT" H 7777 885 50  0000 L CNN
-F 2 "" H 7750 950 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical" H 7750 950 50  0001 C CNN
 F 3 "~" H 7750 950 50  0001 C CNN
 	1    7750 950 
 	1    0    0    -1  
@@ -1055,9 +1022,44 @@ NoConn ~ 3850 4750
 NoConn ~ 3850 4650
 NoConn ~ 3850 4550
 NoConn ~ 3850 4350
-NoConn ~ 6550 -1400
-NoConn ~ 2700 150 
-NoConn ~ 4050 -1300
-NoConn ~ 4950 -1100
-NoConn ~ 6750 3000
+$Comp
+L OurLib:LM1117ADJ U1
+U 1 1 5C65FB73
+P 3500 850
+F 0 "U1" H 3575 1125 50  0000 C CNN
+F 1 "LM1117ADJ" H 3575 1034 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-223" H 3500 1000 50  0001 C CNN
+F 3 "" H 3500 1000 50  0001 C CNN
+	1    3500 850 
+	1    0    0    -1  
+$EndComp
+Connection ~ 4000 1700
+Wire Wire Line
+	3850 800  3900 800 
+Connection ~ 4000 800 
+Wire Wire Line
+	3850 900  3900 900 
+Wire Wire Line
+	3900 900  3900 800 
+Connection ~ 3900 800 
+Wire Wire Line
+	3900 800  4000 800 
+Wire Wire Line
+	3050 800  2950 800 
+Connection ~ 2950 800 
+Wire Wire Line
+	3400 1100 3400 1700
+Wire Wire Line
+	3400 1700 4000 1700
+$Comp
+L OurLib:AudioJack J2
+U 1 1 5C68B77B
+P 1550 3800
+F 0 "J2" H 1576 4075 50  0000 C CNN
+F 1 "AudioJack" H 1576 3984 50  0000 C CNN
+F 2 "Our_Components:PJ-211_Phone-Jack" H 1550 3850 50  0001 C CNN
+F 3 "" H 1550 3850 50  0001 C CNN
+	1    1550 3800
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
