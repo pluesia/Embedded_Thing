@@ -1,4 +1,4 @@
-# Audio Analyzer
+# (Mini/Small) Audio Analyzer
 
 # Grades
 
