@@ -5,8 +5,8 @@ A tiny embedded system that allows to provide simple analysis of an audio signal
 # Grades
 
 *Grade 3*  
- Understand how the fourier transformation algorithm works with the audio input, and implement it.  
+ Sampling and show a simple interpretation of the audio signal.  
 *Grade 4*  
- Know how to split input into differents components to show in a simple visual interpretation.  
+ Understand and implement the fourier transform algorithm for the audio input.  
 *Grade 5*  
- Add more complex interpretantions, for diffrent uses of the system.  
+ Add different modes of the display and the audio.  
