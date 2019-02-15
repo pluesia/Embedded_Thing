@@ -60,8 +60,11 @@ Resistors used are from 0805s
 18pF						2
 
 
+Total Things = 24
 
+All of them should be listed at Column Mini Audio Spectrum now
 
+https://docs.google.com/spreadsheets/d/1h9H-vIpOehOyXNSAo5Ac9nzNG-_aQqIoclw2sk2FT1k/edit#gid=789537178
 
 
 
