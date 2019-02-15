@@ -44,7 +44,7 @@ https://www.elfa.se/en/mini-usb-connector-smt-poles-rnd-connect-rnd-205-00861/p/
 Resistors used are from E12s
 
 220 Ohm						8
-10k Ohm						4
+10k Ohm						6
 1k Ohm						2
 2.2k Ohm					1
 1.8k Ohm					1
