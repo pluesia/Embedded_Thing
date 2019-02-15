@@ -1,5 +1,7 @@
 # (Mini/Small) Audio Analyzer
 
+A tiny embedded system that allows to provide simple analysis of an audio signal, connected by a jack.
+
 # Grades
 
 *Grade 3*  
