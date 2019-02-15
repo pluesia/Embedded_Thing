@@ -1,4 +1,4 @@
-# Audio Spectrometre
+# Audio Analyzer
 
 # Grades
 
