@@ -1,0 +1,71 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "name": "MiniAudioSpectrum (debug)",
+            "preLaunchTask": "cargo build MiniAudioSpectrum",
+            "executable": "./target/thumbv7em-none-eabihf/debug/mini_audio_spectrum",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "swoConfig": {
+                "enabled": true,
+                "cpuFrequency": 16000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    {
+                        "type": "console",
+                        "label": "ITM0",
+                        "port": 0
+                    },
+                    {
+                        "type": "console",
+                        "label": "ITM1",
+                        "port": 1
+                    }
+                ]
+            },
+            "svdFile": "STM32F413.svd",
+            "cwd": "${workspaceRoot}"
+        },{
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "name": "MiniAudioSpectrum (release)",
+            "preLaunchTask": "cargo build MiniAudioSpectrum --release",
+            "executable": "./target/thumbv7em-none-eabihf/release/mini_audio_spectrum",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "swoConfig": {
+                "enabled": true,
+                "cpuFrequency": 16000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    {
+                        "type": "console",
+                        "label": "ITM0",
+                        "port": 0
+                    },
+                    {
+                        "type": "console",
+                        "label": "ITM1",
+                        "port": 1
+                    }
+                ]
+            },
+            "svdFile": "STM32F413.svd",
+            "cwd": "${workspaceRoot}"
+        },
+    ]
+}
