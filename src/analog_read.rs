@@ -58,10 +58,13 @@ const APP: () = {
         let stim = &mut core.ITM.stim[0];
         iprintln!(stim, "analog read");
 
-        let rcc = device.RCC.constrain();
+        let rcc = device.RCC;
+        
+        let _ = rcc.apb2enr.write(|w| w.adc1en().enabled());
+        //let _ = apb2enr.write(|w| w.adc1en().enabled());
 
         //let clocks = rcc.cfgr.sysclk(84.mhz()).pclk1(42.mhz()).pclk2(84.mhz()).freeze();
-        let clocks = rcc.cfgr.freeze();
+        let clocks = rcc.constrain().cfgr.freeze();
 
         let gpioc = device.GPIOC.split();
         let pc9 = gpioc.pc9.into_alternate_af0();
@@ -69,30 +72,23 @@ const APP: () = {
 
         let gpioa = device.GPIOA.split();
         let _pa1 = gpioa.pa1.into_analog();
-
-        let gpiob = device.GPIOB.split();
-        let _pb0 = gpiob.pb0.into_analog();
-
         // Configure ADC
-        let mut adc = device.ADC1;
-        unsafe {
-            adc.cr2.write(|w| w
-                .adon().enabled());     // Turn on the ADC                                        
+        let adc = device.ADC1;
+        unsafe {                                   
             adc.cr1.write(|w| w
-                //.awdch().bits(0b0001)   // Set channel IN1 enable (PA1 pin)
-                .awdch().bits(0b1000)   // Set channel IN1 enable (PB0 pin)
+                .awdch().bits(0b0001)   // Set channel IN1 enable (PA1 pin)
                 .eocie().enabled()      // Interrupts at the end of conversion
                 .res().eight_bit());    // Set resolution
             adc.sqr1.write(|w| w
                 .l().bits(1u8));        // Only one conversion
             adc.sqr3.write(|w| w
-                //.sq1().bits(0b0001));   // Set the first conversion from PA1
-                .sq1().bits(0b1000));   // Set the first conversion from PB0
+                .sq1().bits(0b0001));   // Set the first conversion from PA1
             adc.cr2.write(|w| w
+                .adon().enabled()       // Turn on the ADC
                 .eocs().each_sequence() // End of conversion each secuence
                 .cont().continuous()    // Continuous mode
                 .swstart().start());    // Start converting
-        }        
+        }     
 
         let tx = gpioa.pa2.into_alternate_af7();
         let rx = gpioa.pa3.into_alternate_af7(); // try comment out
