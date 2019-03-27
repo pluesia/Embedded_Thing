@@ -18,6 +18,7 @@ use crate::hal::stm32::ADC1;
 use hal::stm32::ITM;
 
 use nb::block;
+// use rtfm::{app, Instant};
 use rtfm::app;
 
 // Our error type
@@ -29,20 +30,7 @@ pub enum Error {
     ADCError,
 }
 
-// Struct for writting the led matrix
-struct LedMatrix 
-{
-    // data : &'a hal::gpio::gpioc::PC6,
-    // shift : &'a hal::gpio::gpioc::PC7,
-    // store : &'a hal::gpio::gpioc::PC8,
-    // outputenable : &'a hal::gpio::gpioc::PC9,
-    // matrix : &'a [u8; 8],
-}
-
-impl LedMatrix {
-    fn show(&self) {
-    }
-}
+// const PERIOD: u32 = 8_000_000;
 
 #[app(device = hal::stm32)]
 const APP: () = {
@@ -53,42 +41,62 @@ const APP: () = {
     static mut ADC: ADC1 = ();
 
     // init runs in an interrupt free section>
+    // #[init(schedule = [adc_c])]
     #[init]
     fn init() {
         let stim = &mut core.ITM.stim[0];
         iprintln!(stim, "analog read");
 
         let rcc = device.RCC;
-        
-        let _ = rcc.apb2enr.write(|w| w.adc1en().enabled());
-        //let _ = apb2enr.write(|w| w.adc1en().enabled());
 
+        // Enable ADC clock
+        rcc.apb2enr.modify(|_, w| w.adc1en().enabled());
+        
         //let clocks = rcc.cfgr.sysclk(84.mhz()).pclk1(42.mhz()).pclk2(84.mhz()).freeze();
         let clocks = rcc.constrain().cfgr.freeze();
 
-        let gpioc = device.GPIOC.split();
-        let pc9 = gpioc.pc9.into_alternate_af0();
-        pc9.set_speed(hal::gpio::Speed::VeryHigh);
+        // Set ADC clock preescaler /8
+        // let adc_common = device.ADC_COMMON;
+        // adc_common.ccr.write(|w| w.adcpre().div8());
 
+        device.GPIOA.moder.modify(|_, w| w.moder1().analog());
+        
         let gpioa = device.GPIOA.split();
-        let _pa1 = gpioa.pa1.into_analog();
+
         // Configure ADC
-        let adc = device.ADC1;
-        unsafe {                                   
-            adc.cr1.write(|w| w
-                .awdch().bits(0b0001)   // Set channel IN1 enable (PA1 pin)
-                .eocie().enabled()      // Interrupts at the end of conversion
-                .res().eight_bit());    // Set resolution
-            adc.sqr1.write(|w| w
-                .l().bits(1u8));        // Only one conversion
-            adc.sqr3.write(|w| w
-                .sq1().bits(0b0001));   // Set the first conversion from PA1
-            adc.cr2.write(|w| w
-                .adon().enabled()       // Turn on the ADC
-                .eocs().each_sequence() // End of conversion each secuence
-                .cont().continuous()    // Continuous mode
-                .swstart().start());    // Start converting
-        }     
+        let adc = device.ADC1; 
+        adc.cr2.modify(|_, w| w
+            .adon().disabled()      // Turns off the ADC
+            //.cont().continuous()    // Continuous mode
+            .cont().single()
+            .align().right()        // Right align
+        ); 
+        adc.cr2.modify(|_, w| w
+            .adon().enabled()        // Turns on the ADC
+        );
+        unsafe { adc.sqr3.modify(|_,w| w
+            .sq1().bits(0)      // Set the PA1 as entry
+        ) };
+        unsafe { adc.sqr3.modify(|_,w| w
+            .sq1().bits(0b0001)      // Set the PA1 as entry
+        ) };  
+        adc.smpr2.modify(|_, w| w
+            .smpx_x().cycles480()   // Longest cycle time
+        );
+        // Set periodic function for ADC conversion
+        // schedule.adc_c(Instant::now() + PERIOD.cycles()).unwrap();
+        loop {
+            adc.cr2.modify(|_, w| w
+                .swstart().start()    // Start the conversion
+            );
+            while adc.sr.read().eoc().bit_is_clear() {}
+            let value = adc.dr.read().bits();
+            adc.sr.modify(|_, w| w.eoc().clear_bit());
+            iprintln!(stim, "val: {:?}", value);
+            for _ in 0..10000 {
+                cortex_m::asm::nop();
+            }
+        }
 
         let tx = gpioa.pa2.into_alternate_af7();
         let rx = gpioa.pa3.into_alternate_af7(); // try comment out
@@ -111,7 +119,7 @@ const APP: () = {
         // For debugging
         ITM = core.ITM;
 
-        ADC = adc;
+        ADC = adc;   
     }
 
     // idle may be interrupted by other interrupt/tasks in the system
@@ -152,15 +160,18 @@ const APP: () = {
 
     }
 
-    #[interrupt(priority = 3, resources = [ADC], spawn = [trace_data, trace_error, echo])]
-    fn ADC() {
-        let byte = resources.ADC.dr.read().bits() as u8;
-        let _ = spawn.echo(byte);
-        
-        if spawn.trace_data(byte).is_err() {
-            let _ = spawn.trace_error(Error::ADCError);
-        }
-    }
+    // #[task(schedule = [adc_c])]
+    // fn adc_c() {
+    //     // Start conversion
+    //     // let cr2 = device.adc1.cr2.write(|w| w.swstart().enabled());
+    //     // let sr = resources.ADC.sr;
+
+    //     // while sr.read().eoc() == hal::stm32::adc1::sr::EOCR::NOTCOMPLETE
+    //     // {}      // Wait until the conversion is done
+
+    //     let now = Instant::now();
+    //     schedule.adc_c(scheduled + PERIOD.cycles()).unwrap();
+    // }
 
     #[interrupt(priority = 3, resources = [RX], spawn = [trace_data, trace_error, echo])]
     fn USART2() {
