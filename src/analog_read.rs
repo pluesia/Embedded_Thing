@@ -48,55 +48,37 @@ const APP: () = {
         iprintln!(stim, "analog read");
 
         let rcc = device.RCC;
-
         // Enable ADC clock
         rcc.apb2enr.modify(|_, w| w.adc1en().enabled());
         
-        //let clocks = rcc.cfgr.sysclk(84.mhz()).pclk1(42.mhz()).pclk2(84.mhz()).freeze();
+        // Clocks configuration (16 MHz)
         let clocks = rcc.constrain().cfgr.freeze();
 
-        // Set ADC clock preescaler /8
-        // let adc_common = device.ADC_COMMON;
-        // adc_common.ccr.write(|w| w.adcpre().div8());
-
-        device.GPIOA.moder.modify(|_, w| w.moder1().analog());
-        
         let gpioa = device.GPIOA.split();
+        gpioa.pa1.into_analog();        // PA1 for analog input      
 
         // Configure ADC
-        let adc = device.ADC1; 
+        let adc = device.ADC1;
+
+        // Turn off the adc
+        adc.cr2.modify(|_, w| w.adon().disabled());
+        
         adc.cr2.modify(|_, w| w
-            .adon().disabled()      // Turns off the ADC
-            //.cont().continuous()    // Continuous mode
-            .cont().single()
-            .align().right()        // Right align
-        ); 
+            .align().right()            // Right alignment
+            .cont().continuous()        // Continuous mode
+        );
+        // Higher precision
+        adc.smpr2.modify(|_, w| w.smpx_x().cycles480());
+        // Enable the interrupt when a conversion finish
+        adc.cr1.modify(|_, w| w.eocie().enabled());
+        // First read from analog 1
+        unsafe{adc.sqr3.modify(|_, w| w.sq1().bits(0b0001));}
+        // Turn on the adc
+        adc.cr2.modify(|_, w| w.adon().enabled() );
+
         adc.cr2.modify(|_, w| w
-            .adon().enabled()        // Turns on the ADC
+            .swstart().start()    // Start the conversion
         );
-        unsafe { adc.sqr3.modify(|_,w| w
-            .sq1().bits(0)      // Set the PA1 as entry
-        ) };
-        unsafe { adc.sqr3.modify(|_,w| w
-            .sq1().bits(0b0001)      // Set the PA1 as entry
-        ) };  
-        adc.smpr2.modify(|_, w| w
-            .smpx_x().cycles480()   // Longest cycle time
-        );
-        // Set periodic function for ADC conversion
-        // schedule.adc_c(Instant::now() + PERIOD.cycles()).unwrap();
-        loop {
-            adc.cr2.modify(|_, w| w
-                .swstart().start()    // Start the conversion
-            );
-            while adc.sr.read().eoc().bit_is_clear() {}
-            let value = adc.dr.read().bits();
-            adc.sr.modify(|_, w| w.eoc().clear_bit());
-            iprintln!(stim, "val: {:?}", value);
-            for _ in 0..10000 {
-                cortex_m::asm::nop();
-            }
-        }
 
         let tx = gpioa.pa2.into_alternate_af7();
         let rx = gpioa.pa3.into_alternate_af7(); // try comment out
@@ -125,11 +107,6 @@ const APP: () = {
     // idle may be interrupted by other interrupt/tasks in the system
     #[idle]
     fn idle() -> ! {
-        // let gpioc = device.GPIOC.split();
-        // let data = gpioc.pc6.into_push_pull_output();
-        // let shift = gpioc.pc7.into_push_pull_output();
-        // let store = gpioc.pc8.into_push_pull_output();
-        // let outputenable = gpioc.pc9.into_push_pull_output();
         loop {
             asm::wfi();
         }
@@ -160,35 +137,40 @@ const APP: () = {
 
     }
 
-    // #[task(schedule = [adc_c])]
-    // fn adc_c() {
-    //     // Start conversion
-    //     // let cr2 = device.adc1.cr2.write(|w| w.swstart().enabled());
-    //     // let sr = resources.ADC.sr;
-
-    //     // while sr.read().eoc() == hal::stm32::adc1::sr::EOCR::NOTCOMPLETE
-    //     // {}      // Wait until the conversion is done
-
-    //     let now = Instant::now();
-    //     schedule.adc_c(scheduled + PERIOD.cycles()).unwrap();
-    // }
-
-    #[interrupt(priority = 3, resources = [RX], spawn = [trace_data, trace_error, echo])]
-    fn USART2() {
-        let rx = resources.RX;
-
-        match rx.read() {
-            Ok(byte) => {
-                let _ = spawn.echo(byte);
-                if spawn.trace_data(byte).is_err() {
-                    let _ = spawn.trace_error(Error::RingBufferOverflow);
-                }
-            }
-            Err(_err) => {
-                let _ = spawn.trace_error(Error::UsartReceiveOverflow);
-            }
-        }
+    #[interrupt(priority = 3, resources = [ADC], spawn = [echo])]
+    fn ADC() {
+        let value = resources.ADC.dr.read().bits();
+        asm::nop();
+        // loop {
+        //     adc.cr2.modify(|_, w| w
+        //         .swstart().start()    // Start the conversion
+        //     );
+        //     while adc.sr.read().eoc().bit_is_clear() {}
+        //     let value = adc.dr.read().bits();
+        //     adc.sr.modify(|_, w| w.eoc().clear_bit());
+        //     iprintln!(stim, "val: {:?}", value);
+        //     for _ in 0..10000 {
+        //         cortex_m::asm::nop();
+        //     }
+        // }
     }
+
+    // #[interrupt(priority = 3, resources = [RX], spawn = [trace_data, trace_error, echo])]
+    // fn USART2() {
+    //     let rx = resources.RX;
+
+    //     match rx.read() {
+    //         Ok(byte) => {
+    //             let _ = spawn.echo(byte);
+    //             if spawn.trace_data(byte).is_err() {
+    //                 let _ = spawn.trace_error(Error::RingBufferOverflow);
+    //             }
+    //         }
+    //         Err(_err) => {
+    //             let _ = spawn.trace_error(Error::UsartReceiveOverflow);
+    //         }
+    //     }
+    // }
 
     // Set of interrupt vectors, free to use for RTFM tasks
     // 1 per priority level suffices
