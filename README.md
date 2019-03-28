@@ -39,7 +39,10 @@ The debug output can be done with ITM
 # Remaining work
 Connect the features implemented to has a real system working.
 
-Program the PCB with the binaries generated.
+Program the PCB with the binaries generated:
+* PWM for modulating the LED intensity
+* Generate frecuency extractor for ADC input
+* Showing results in the LED matrix
  
 # Grades
 ## Grade 3 
