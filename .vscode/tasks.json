@@ -6,7 +6,7 @@
         {
             "type": "shell",
             "label": "cargo build MiniAudioSpectrum",
-            "command": "cargo build --bin mini_audio_spectrum --features \"hal\"",
+            "command": "cargo build --bin mini_audio_spectrum --features \"hal rtfm\"",
             "problemMatcher": [
                 "$rustc"
             ],
@@ -18,7 +18,7 @@
         {
             "type": "shell",
             "label": "cargo build MiniAudioSpectrum --release",
-            "command": "cargo build --bin mini_audio_spectrum --release --features \"hal\"",
+            "command": "cargo build --bin mini_audio_spectrum --release --features \"hal rtfm\"",
             "problemMatcher": [
                 "$rustc"
             ],

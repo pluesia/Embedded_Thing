@@ -45,27 +45,24 @@ const APP: () = {
     #[init]
     fn init() {
         let stim = &mut core.ITM.stim[0];
-        iprintln!(stim, "analog read");
+        iprintln!(stim, "mini audio spectrum");
 
         let rcc = device.RCC;
         // Enable ADC clock
         rcc.apb2enr.modify(|_, w| w.adc1en().enabled());
 		// Enable TIM1 clock
-		rcc.apb2enr.write(|w| w.tim1en().enabled());
+		rcc.apb2enr.modify(|_, w| w.tim1en().enabled());
         
         // Clocks configuration (16 MHz)
         let clocks = rcc.constrain().cfgr.freeze();
 
         let gpioa = device.GPIOA.split();
         gpioa.pa1.into_analog();        // PA1 for analog input    
-
-        let tim1 = device.TIM1;
-
-        let gpioa = device.GPIOA.split();
-
-        gpioa.pa8.into_alternate_af1();
+        gpioa.pa8.into_alternate_af1(); // PWM output
         gpioa.pa7.into_alternate_af1(); 
 
+        // PWM configuration
+        let tim1 = device.TIM1;
         // Output compare mode
         tim1.ccmr1_output.write(|w| w.oc1pe().set_bit() );
         // PWM mode
@@ -159,14 +156,14 @@ const APP: () = {
 
     #[task(priority = 1, resources = [ITM])]
     fn trace_data(byte: u8) {
-        let stim = &mut resources.ITM.stim[0];
-        iprintln!(stim, "data {}", byte);
+        // let stim = &mut resources.ITM.stim[0];
+        // iprintln!(stim, "data {}", byte);
     }
 
     #[task(priority = 1, resources = [ITM])]
     fn trace_error(error: Error) {
-        let stim = &mut resources.ITM.stim[0];
-        iprintln!(stim, "{:?}", error);
+        // let stim = &mut resources.ITM.stim[0];
+        // iprintln!(stim, "{:?}", error);
     }
 
     #[task(priority = 2, resources = [TX], spawn = [trace_error])]
@@ -179,10 +176,15 @@ const APP: () = {
 
     }
 
-    #[interrupt(priority = 3, resources = [ADC], spawn = [echo])]
+    #[interrupt(priority = 3, resources = [ADC, ITM], spawn = [echo])]
     fn ADC() {
         let value = resources.ADC.dr.read().bits();
-        asm::nop();
+        let stim = &mut resources.ITM.stim[0];
+        iprintln!(stim, " ADC: {}", value);
+        // for _ in 1..1000
+        // {
+        //     asm::nop();
+        // }
 		// Filling structure. Launch frecuency detector when filled
     }
 
