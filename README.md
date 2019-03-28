@@ -33,9 +33,9 @@ The debug output can be done with ITM
 2. Real board mount
 3. Reset and reboot buttons 
 4. Implemented in the code:
-··* PWM working with the TIM1 of the STM32F4 for the LED intensity
-··* ADC conversion working with interrupts for reading the audio input
-··* UART for showing the results for depuration
+* PWM working with the TIM1 of the STM32F4 for the LED intensity
+* ADC conversion working with interrupts for reading the audio input
+* UART for showing the results for depuration
 
 # Future work
 Program the PCB with the binaries generated:
