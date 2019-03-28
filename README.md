@@ -1,4 +1,6 @@
-# Audio Spectrometre
+# (Mini/Small) Audio Analyzer
+
+A tiny embedded system that allows to provide simple analysis of an audio signal, connected by a jack.
 
 # Introduction
 This project belongs to the course Embedded System Design (E7020R) of the 
@@ -34,9 +36,9 @@ Connect the features implemented to has a real system working.\n
 Program the PCB with the binaries generated.\n
  
 # Grades
-Grade 3
-Sampling and show a simple interpretation of the audio signal.\n
-Grade 4
-Understand and implement the fourier transform algorithm for the audio input.\n
-Grade 5
-Add different modes of the display and the audio.\n
+*Grade 3*  
+ Sampling and show a simple interpretation of the audio signal.  
+*Grade 4*  
+ Understand and implement the fourier transform algorithm for the audio input.  
+*Grade 5*  
+ Add different modes of the display and the audio. 

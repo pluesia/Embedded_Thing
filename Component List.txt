@@ -9,7 +9,7 @@ https://www.elfa.se/en/pin-header-male-single-row-straight-without-shroud-wuerth
 RND 205-00647 - Pin Header Female 7		2		300-93-667					9,25
 https://www.elfa.se/en/pin-header-female-rnd-connect-rnd-205-00647/p/30093667?queryFromSuggest=true
 
-RND 135-00038 - LED Grön 5 mm T-3 1/4		64		301-00-035					1,50
+RND 135-00038 - LED GrÃ¶n 5 mm T-3 1/4		64		301-00-035					1,50
 https://www.elfa.se/sv/led-groen-mm-rnd-components-rnd-135-00038/p/30100035?q=led&filter_advisor_answerPath=_0_1&filter_advisor_campaignId=559&page=16&origPos=16&origPageSize=50&simi=99.85
 
 Shift register 8 bit out latch			2		300-23-063					5,14
@@ -18,7 +18,7 @@ https://www.elfa.se/sv/74595-bit-shift-register-with-output-latches-pdip-16-texa
 Audio Jack plug PJ-211				1		142-70-221					5,96
 https://www.elfa.se/en/jack-panel-socket-nickel-plated-2p-zhejiang-zhengguang-pj-211/p/14270221?q=pj+211&page=1&origPos=1&origPageSize=25&simi=99.9&no-cache=true
 
-Electrolitic Capacitor 10 µF			2		167-30-974					3,29
+Electrolitic Capacitor 10 ÂµF			2		167-30-974					3,29
 https://www.elfa.se/en/smd-electrolytic-capacitor-10-uf-16-vdc-rubycon-16sev10m4x5/p/16730974?q=+Electrolytic+Capacitor+&filter_Rated+voltage%7E%7EVDC=16&filter_Capacitance%7E%7EuF=10&page=7&origPos=1297&origPageSize=25&simi=99.72
 
 8 MHz Crystal Quartz				1		301-31-269					4,86
@@ -40,5 +40,34 @@ https://se.farnell.com/stmicroelectronics/stm32f401ret6/mcu-32-bit-cortex-m4-84m
 
 RND 205-00861 - Mini USB Connector		1		301-12-363					4,96
 https://www.elfa.se/en/mini-usb-connector-smt-poles-rnd-connect-rnd-205-00861/p/30112363?q=mini+usb&page=2&origPos=2&origPageSize=25&simi=99.88
+
+Resistors used are from E12s
+
+220 Ohm						8
+10k Ohm						6
+1k Ohm						2
+2.2k Ohm					1
+1.8k Ohm					1
+8.2k Ohm					1
+
+Resistors used are from 0805s
+
+0.1uF						2
+100nF						11
+10uF						2
+4.7uF						2
+1uF						1
+18pF						2
+
+
+Total Things = 24
+
+All of them should be listed at Column Mini Audio Spectrum now
+
+https://docs.google.com/spreadsheets/d/1h9H-vIpOehOyXNSAo5Ac9nzNG-_aQqIoclw2sk2FT1k/edit#gid=789537178
+
+
+
+
 
 
