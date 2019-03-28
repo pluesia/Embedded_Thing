@@ -42,6 +42,7 @@ Program the PCB with the binaries generated:
 * PWM for modulating the LED intensity
 * Generate frecuency extractor for ADC input
 * Showing results in the LED matrix
+* Use UART for configure the LED intensity
  
 # Grades
 ## Grade 3 
