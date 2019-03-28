@@ -33,10 +33,9 @@ The debug output can be done with ITM
 2. Real board mount
 3. Reset and reboot buttons 
 4. Implemented in the code:
-
-..* PWM working with the TIM1 of the STM32F4 for the LED intensity
-..* ADC conversion working with interrupts for reading the audio input
-..* UART for showing the results for depuration
+··* PWM working with the TIM1 of the STM32F4 for the LED intensity
+··* ADC conversion working with interrupts for reading the audio input
+··* UART for showing the results for depuration
 
 # Future work
 Program the PCB with the binaries generated:
@@ -47,7 +46,7 @@ Program the PCB with the binaries generated:
 # Grades
 ## Grade 3 
  Sampling and show a simple interpretation of the audio signal.  
-## Grade 4*  
+## Grade 4
  Understand and implement the fourier transform algorithm for the audio input.  
 ## Grade 5
  Add different modes of the display and the audio. 
