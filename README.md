@@ -3,7 +3,7 @@
 A tiny embedded system that allows to provide simple analysis of an audio signal, connected by a jack.
 
 # Introduction
-This project belongs to the course Embedded System Design (E7020R) of the 
+This project belongs to the course Embedded System Design (E7020E) of the 
 LTU.
 
 The repository contains all hardware blueprints, and the sources for building
@@ -29,16 +29,15 @@ cargo build --bin mini_audio_spectrum --features "hal rtfm"
 The debug output can be done with ITM
 
 # Work done
-1. The hardware design
+1. Hardware schematics and layout
 2. Real board mount
-3. Implemented in the code:
+3. Reset and reboot buttoms 
+4. Implemented in the code:
 ..* PWM working with the TIM1 of the STM32F4
 ..* ADC conversion working with interrupts
 ..* UART for showing the results for depuration
 
-# Remaining work
-Connect the features implemented to has a real system working.
-
+# Future work
 Program the PCB with the binaries generated:
 * PWM for modulating the LED intensity
 * Generate frecuency extractor for ADC input
