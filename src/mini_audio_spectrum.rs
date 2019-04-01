@@ -16,6 +16,7 @@ use crate::hal::prelude::*;
 use crate::hal::serial::{config::Config, Event, Rx, Serial, Tx};
 use crate::hal::stm32::ADC1;
 use hal::stm32::ITM;
+use hal::gpio::{gpioa::PA5, Output, PushPull};
 
 use nb::block;
 // use rtfm::{app, Instant};
@@ -39,6 +40,7 @@ const APP: () = {
     static mut RX: Rx<hal::stm32::USART2> = ();
     static mut ITM: ITM = ();
     static mut ADC: ADC1 = ();
+    static mut PA5: PA5<Output<PushPull>> = ();
 
     // init runs in an interrupt free section>
     // #[init(schedule = [adc_c])]
@@ -60,6 +62,21 @@ const APP: () = {
         gpioa.pa1.into_analog();        // PA1 for analog input    
         gpioa.pa8.into_alternate_af1(); // PWM output
         gpioa.pa7.into_alternate_af1(); 
+
+        let gpioc = device.GPIOC.split();
+
+        // Button test
+        device.SYSCFG.exticr4.modify(|_, w| unsafe{ w.exti13().bits(0b0010) });
+        let pc13 = gpioc.pc13.into_pull_down_input();
+        let pa5 = gpioa.pa5.into_push_pull_output();
+
+        // loop {
+        //     if pc13.is_high() {
+        //         pa5.set_high();
+        //     } else{
+        //         pa5.set_low();
+        //     }
+        // }
 
         // PWM configuration
         let tim1 = device.TIM1;
@@ -143,7 +160,9 @@ const APP: () = {
         // For debugging
         ITM = core.ITM;
 
-        ADC = adc;   
+        ADC = adc;
+
+        PA5 = pa5;   
     }
 
     // idle may be interrupted by other interrupt/tasks in the system
@@ -180,7 +199,7 @@ const APP: () = {
     fn ADC() {
         let value = resources.ADC.dr.read().bits();
         let stim = &mut resources.ITM.stim[0];
-        iprintln!(stim, " ADC: {}", value);
+        //iprintln!(stim, " ADC: {}", value);
         // for _ in 1..1000
         // {
         //     asm::nop();
@@ -208,6 +227,12 @@ const APP: () = {
 	#[interrupt(priority = 3)]
     fn TIM1_CC() {
         asm::nop();      
+    }
+
+    #[interrupt(priority = 3, resources = [ITM])]
+    fn EXTI15_10() {
+        let stim = &mut resources.ITM.stim[0];
+        iprintln!(stim, "Button pressed");
     }
 
     // Set of interrupt vectors, free to use for RTFM tasks
